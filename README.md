@@ -47,4 +47,12 @@ As the name implies, this middleware looks at the `tenant_user_id` session varia
 
 These middlewares accept a `Tenant` and abort the request with a 404 if the resolved tenant's type is incorrect. Routes with these middlewares should *only* be visible to or for tenants of that type. Note that the `Tenant` injected into these middlewares is directed by the previously mentioned middleware. As such, it's important that all the afformentioned middlewares be processed in the appropriate order.
 
-For "other" tenant pages, we can utilize Laravel's built-in Route Model Binding. If a `Contractor` tenant slug is entered for a route who's controller expects an `Operator`instance, then the binding will fail to find the appropriate
+For "other" tenant pages, we can accept the tenant slug from the url and fetch to see if `Tenant` exists with that slug, and if it is of the appropriate type for the page we wish to visit.
+
+## Benefits
+
+This approach cleans up our routes and middlewares a great deal. We can seperate routes into files based on tenant types, and every route in each file can be wrapped in a `<TenantType>Only`middleware. We can also guarantee that the tenant recieved in a controller is of the appriate type, meaning we don't have to do any `isContractor`, `isOperator` checking in the controller.
+
+## Drawbacks
+
+This approach does put a hard seperation between the "current" tenant routes and the "other" tenant routes. This is probably desirable as we can just not expose routes for things that others shouldn't be able to look in on, but it does mean we have to explicitly define routes for both access types.
