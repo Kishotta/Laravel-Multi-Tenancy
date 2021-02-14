@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Contractor\RosterController;
 use App\Http\Controllers\DashboardController;
-use App\Models\Operator;
-use App\Models\Tenant;
+use App\Http\Controllers\Operator\ConfigController;
+use App\Http\Middleware\ContractorOnly;
+use App\Http\Middleware\OperatorOnly;
+use App\Http\Middleware\RetrieveTenantContextFromSession;
 use App\Models\TenantUser;
 use Illuminate\Support\Facades\Route;
 
@@ -30,39 +32,37 @@ Route::get('logout', function() {
 
 
 Route::get('/', function() {
-   return view('welcome');
+    return view('welcome');
 });
 
 
 
 Route::middleware(['session-tenant-context'])->group(function() {
-   Route::get('home', [DashboardController::class, 'index']);
+    Route::get('home', [DashboardController::class, 'index']);
 });
 
 Route::get('{tenant}/home', [DashboardController::class, 'index']);
 
 
-// Current tenant contractor routes
-Route::middleware(['session-tenant-context', 'contractor-only'])->group(function() {
-    Route::get('roster', [RosterController::class, 'index']);
-});
-
-// Other tenant contractor routes
-Route::get('{contractor}/roster', [RosterController::class, 'index']);
-
-
-Route::get('{thing?}/thing', function($thing) {
-    dd($thing);
-});
-
-// Current tenant  operator routes
-Route::middleware(['session-tenant-context', 'operator-only'])->group(function() {
-    Route::get('config', function(Operator $operator) {
-        dd($operator);
+// Contractor.php
+Route::middleware([ContractorOnly::class])->group(function() {
+    // Current contractor tenant
+    Route::middleware([RetrieveTenantContextFromSession::class])->group(function() {
+        Route::get('roster', [RosterController::class, 'index']);
     });
+
+    // Other contractor tenant
+    Route::get('{tenantSlug}/roster', [RosterController::class, 'index']);
 });
 
-// Other tenant operator routes
-Route::get('{operator}/config', function(Operator $operator) {
-    dd($operator);
+
+// Operator.php
+Route::middleware([OperatorOnly::class])->group(function() {
+    // Current operator tenant
+    Route::middleware([RetrieveTenantContextFromSession::class])->group(function() {
+        Route::get('config', [ConfigController::class, 'index']);
+    });
+
+    // Other operator tenant
+    Route::get('{tenantSlug}/config', [ConfigController::class, 'index']);
 });

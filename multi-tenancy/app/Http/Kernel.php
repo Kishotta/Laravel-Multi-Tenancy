@@ -6,7 +6,9 @@ use App\Http\Middleware\ContractorOnly;
 use App\Http\Middleware\OperatorOnly;
 use App\Http\Middleware\RetrieveTenantContextFromSession;
 use App\Http\Middleware\TenantType;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Routing\Router;
 
 class Kernel extends HttpKernel
 {
@@ -70,4 +72,13 @@ class Kernel extends HttpKernel
         'contractor-only' => ContractorOnly::class,
         'operator-only' => OperatorOnly::class,
     ];
+
+    public function __construct(Application $app, Router $router)
+    {
+        parent::__construct($app, $router);
+
+        $this->appendToMiddlewarePriority(RetrieveTenantContextFromSession::class);
+        $this->appendToMiddlewarePriority(ContractorOnly::class);
+        $this->appendToMiddlewarePriority(OperatorOnly::class);
+    }
 }

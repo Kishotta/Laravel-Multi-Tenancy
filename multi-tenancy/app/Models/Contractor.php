@@ -28,8 +28,4 @@ class Contractor extends Tenant
     {
         return $this->tenant->name;
     }
-
-    public function test() {
-
-    }
 }

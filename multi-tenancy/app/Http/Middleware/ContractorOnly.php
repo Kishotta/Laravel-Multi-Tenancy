@@ -18,6 +18,10 @@ class ContractorOnly
 
     public function handle(Request $request, Closure $next)
     {
+        if ($this->tenant->id == null) {
+            $this->tenant = Tenant::whereSlug($request->route('tenantSlug'))->firstOrFail();
+        }
+
         $contractor = $this->tenant->resolve();
 
         if ( ! is_a($contractor, Contractor::class)) {

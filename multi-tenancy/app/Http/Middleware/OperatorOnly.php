@@ -18,6 +18,10 @@ class OperatorOnly
 
     public function handle(Request $request, Closure $next)
     {
+        if ($this->tenant->id == null) {
+            $this->tenant = Tenant::whereSlug($request->route('tenantSlug'))->firstOrFail();
+        }
+
         $operator = $this->tenant->resolve();
 
         if ( ! is_a($operator, Operator::class)) {
