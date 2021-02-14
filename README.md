@@ -6,7 +6,7 @@ This repo demonstrates how multi-tenancy may be achieved with multiple tenant ty
 
 ### Database Setup
 
-This project includes seeders for populating 5 tenants for each of the 2 different tenant types `Contractor`s and `Operator`s. Run the database migrations and seeders with `php artisan migrate:fresh --seed`.
+This project includes seeders for populating 5 tenants for each of the 2 different tenant types: `Contractor`s and `Operator`s. Run the database migrations and seeders with `php artisan migrate:fresh --seed`.
 
 The application also utilizes a `TenantUser` class to allow a single `User`to be associated with multiple `Tenant`s. These models and their relationships are not present in the seeders and will need to be created manualy. To do so, run the following commands in a terminal window at the project directory:
 
@@ -15,7 +15,7 @@ The application also utilizes a `TenantUser` class to allow a single `User`to be
 3. `$user->tenants()->attach(Contractor::first())`
 4. `$user->tenants()->attach(Operator::first())`
 
-The single user in the system will not be associated with the first contractor and first operator.
+The single user in the system will now be associated with the first contractor and first operator.
 
 ### Accessing the dashboard
 
@@ -29,11 +29,11 @@ There aren't currently any permissions linked up, so any user, logged in or not,
 
 ### Contractor Specific Page
 
-`Contractor` tenants have a `/roster`route exposed that currently `dd`s the contractor who's data we would like to access. You should be able to view dumped data at `/roster` since the first `TenantUser` is associated with a contractor. You can also visit `/contractor-slug/roster` to view the "roster pages" of other contractors. Note that attepmting to visit the roster page with an `Operator` tenant slug results in a 404.
+`Contractor` tenants have a `/roster` route exposed that shows the contractor's name and a label. You should be able to view page at `/roster` since the first `TenantUser` is associated with a contractor. You can also visit `/contractor-slug/roster` to view the "roster pages" of other contractors. Note that attepmting to visit the roster page with an `Operator` tenant slug results in a 404.
 
 ### Operator Sepcific PAge
 
-`Operator` tenants have a `/config` route exposed that behaves identically to the contractor `/roster` page, but `dd`ing the operator object instead. You can visit `/login/2` to switch to the second `TenantUser`, which should be associated with an operator, to view this page. 
+`Operator` tenants have a `/config` route exposed that behaves identically to the contractor `/roster` page. You can visit `/login/2` to switch to the second `TenantUser`, which should be associated with an operator, to view this page. 
 
 ## How It Works
 
