@@ -5,7 +5,7 @@
                 {{ $contractor->name }}
             </div>
             <div class="px-6 py-3 text-xs font-extrabold text-white bg-green-400">
-                Dashboard
+                Roster
             </div>
         </div>
     </div>

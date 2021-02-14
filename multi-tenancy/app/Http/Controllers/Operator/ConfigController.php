@@ -10,6 +10,6 @@ class ConfigController extends Controller
 {
     public function index(Operator $operator)
     {
-        dd($operator);
+        return view('operator.config.index', ['operator' => $operator]);
     }
 }

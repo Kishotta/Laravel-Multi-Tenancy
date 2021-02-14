@@ -10,6 +10,6 @@ class RosterController extends Controller
 {
     public function index(Contractor $contractor)
     {
-        dd($contractor);
+        return view('contractor.roster.index', ['contractor' => $contractor]);
     }
 }

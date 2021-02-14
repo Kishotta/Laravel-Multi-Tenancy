@@ -5,7 +5,7 @@
                 {{ $operator->name }}
             </div>
             <div class="px-6 py-3 text-xs font-extrabold text-white bg-blue-400">
-                Operator
+                Dashboard
             </div>
         </div>
     </div>
