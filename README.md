@@ -4,6 +4,13 @@ This repo demonstrates how multi-tenancy may be achieved with multiple tenant ty
 
 ## Demonstration
 
+To get the project working locally, duplicate `.env.example` and rename it to `.env`, then run the following commands in the project directory before proceeding:
+
+1. `composer install`
+2. `npm install && npm run dev`
+3. `php artisan cache:clear`
+4. `php artisan key:generate`
+
 ### Database Setup
 
 This project includes seeders for populating 5 tenants for each of the 2 different tenant types: `Contractor`s and `Operator`s. Run the database migrations and seeders with `php artisan migrate:fresh --seed`.
