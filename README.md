@@ -12,8 +12,8 @@ The application also utilizes a `TenantUser` class to allow a single `User`to be
 
 1. `php artisan tinker`
 2. `$user = User::factory()->create()`
-3. `$user->tenants()->attach(Contractor::first())`
-4. `$user->tenants()->attach(Operator::first())`
+3. `$user->tenants()->attach(Contractor::first()->tenant)`
+4. `$user->tenants()->attach(Operator::first()->tenant)`
 
 The single user in the system will now be associated with the first contractor and first operator.
 
